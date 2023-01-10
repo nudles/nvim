@@ -22,6 +22,9 @@ keymap("n", "<C-j>", "<C-w>j", opts)
 keymap("n", "<C-k>", "<C-w>k", opts)
 keymap("n", "<C-l>", "<C-w>l", opts)
 
+-- ctrl u and ctrl d
+keymap("n", "<C-n>", "<C-d>", opts)
+
 -- Resize with arrows
 keymap("n", "<C-S-k>", ":resize -2<CR>", opts)
 keymap("n", "<C-S-j>", ":resize +2<CR>", opts)
@@ -43,7 +46,7 @@ keymap("v", "p", '"_dP', opts)
 
 -- Insert --
 -- Press jk fast to enter
-keymap("i", "jk", "<ESC>", opts)
+-- keymap("i", "jk", "<ESC>", opts)
 
 -- Visual --
 -- Stay in indent mode
@@ -87,3 +90,6 @@ keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", opt
 
 -- hop
 keymap("n", "<leader><leader>w", ":HopWord<CR>", opts)
+
+
+vim.cmd 'source ~/.config/nvim/vim_script.vim'
