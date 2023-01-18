@@ -166,3 +166,12 @@ endfunction
 command! -nargs=+ Cppman call s:Cppman(expand(<q-args>)) 
 setl keywordprg=:Cppman                                                      
 
+" nnoremap <leader>fw :execute 'Telescope find_files default_text=' . "'" . expand('<cword>')<cr>
+nnoremap <leader>fw :execute 'Telescope live_grep default_text=' . expand('<cword>')<cr>
+
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
+endfun
+command! TrimWhitespace call TrimWhitespace()
