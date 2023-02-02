@@ -11,6 +11,9 @@ local diagnostics = null_ls.builtins.diagnostics
 -- https://github.com/prettier-solidity/prettier-plugin-solidity
 null_ls.setup {
   debug = false,
+  on_init = function(new_client, _)
+      new_client.offset_encoding = 'utf-8'
+  end,
   sources = {
     formatting.prettier.with {
       extra_filetypes = { "toml" },
