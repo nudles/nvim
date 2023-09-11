@@ -9,6 +9,22 @@ M.override = {
   Comment = {
     italic = true,
   },
+
+  DiffChange = {
+        bg = '#007acc',  -- Background color for modified lines (blue)
+        fg = '#ffffff'   -- Text color for modified lines (white)
+  },
+
+  DiffAdd = {
+        bg = '#22863a',  -- Background color for added lines (green)
+        fg = '#ffffff'   -- Text color for added lines (white)
+  },
+
+  DiffDelete = {
+        bg = '#94151b',  -- Background color for deleted lines (red)
+        fg = '#ffffff'   -- Text color for deleted lines (white)
+  }
+
 }
 
 ---@type HLTable

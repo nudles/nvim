@@ -88,6 +88,14 @@ local plugins = {
   {"sindrets/diffview.nvim", lazy = false },
 
 
+  {'akinsho/bufferline.nvim',
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    lazy = false,
+    config = function()
+      require("bufferline").setup()
+    end,
+  },
+
   -- To make a plugin not be loaded
   -- {
   --   "NvChad/nvim-colorizer.lua",

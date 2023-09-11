@@ -43,3 +43,4 @@ vim.cmd "highlight DiffChange term=bold         ctermbg=black     ctermfg=white 
 vim.cmd "highlight DiffDelete term=none         ctermbg=darkblue  ctermfg=darkblue cterm=none guibg=DarkBlue   guifg=DarkBlue gui=none"
 
 vim.opt.relativenumber = true                   -- set relative numbered lines
+

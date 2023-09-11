@@ -91,16 +91,6 @@ M.nvimtree = {
 
 M.telescope = {
   defaults = {
-    vimgrep_arguments = {
-      "rg",
-      "-L",
-      "--color=never",
-      "--no-heading",
-      "--with-filename",
-      "--line-number",
-      "--column",
-      "--smart-case",
-    },
     prompt_prefix = " ",
     selection_caret = " ",
     path_display = { "smart" },
