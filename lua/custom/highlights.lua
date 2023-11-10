@@ -10,6 +10,7 @@ M.override = {
     italic = true,
   },
 
+  -- for diffview color
   DiffChange = {
         bg = '#007acc',  -- Background color for modified lines (blue)
         fg = '#ffffff'   -- Text color for modified lines (white)

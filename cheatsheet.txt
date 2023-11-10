@@ -1,0 +1,3 @@
+stop thread switching in gdb | set scheduler-locking step
+stop when an exception is throwed in gdb | catch throw
+the cheat sheet value is yanked i.e., copied into register 0, to paste it, type "0p | yank cheat sheet

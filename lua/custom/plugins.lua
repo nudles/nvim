@@ -1,4 +1,4 @@
-local overrides = require("custom.configs.overrides")
+local overrides = require "custom.configs.overrides"
 
 ---@type NvPluginSpec[]
 local plugins = {
@@ -25,7 +25,7 @@ local plugins = {
   -- override plugin configs
   {
     "williamboman/mason.nvim",
-    opts = overrides.mason
+    opts = overrides.mason,
   },
 
   {
@@ -50,7 +50,7 @@ local plugins = {
   -- Disable evterm
   {
     "NvChad/nvterm",
-    enabled = false
+    enabled = false,
   },
 
   -- Install toggle term
@@ -72,7 +72,7 @@ local plugins = {
         border = "curved",
       },
     },
-    lazy = false
+    lazy = false,
   },
 
   {
@@ -82,18 +82,80 @@ local plugins = {
 
   { "nvim-telescope/telescope-live-grep-args.nvim" },
 
-  {"nvim-telescope/telescope-fzf-native.nvim",
-    build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
+  {
+    "nvim-telescope/telescope-fzf-native.nvim",
+    build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+  },
 
-  {"sindrets/diffview.nvim", lazy = false },
+  { "sindrets/diffview.nvim", lazy = false },
 
-
-  {'akinsho/bufferline.nvim',
-    dependencies = 'nvim-tree/nvim-web-devicons',
+  {
+    "akinsho/bufferline.nvim",
+    dependencies = "nvim-tree/nvim-web-devicons",
     lazy = false,
     config = function()
       require("bufferline").setup()
     end,
+  },
+
+  { "tpope/vim-fugitive", lazy = false },
+
+  {
+    "sudormrfbin/cheatsheet.nvim",
+    lazy = false,
+    config = function()
+      require("cheatsheet").setup {
+        bundled_cheatsheets = false,
+        bundled_plugin_cheatsheets = false,
+        telescope_mappings = {
+          ["<CR>"] = require("cheatsheet.telescope.actions").copy_cheat_value,
+        },
+      }
+    end,
+  },
+
+  {
+    "aaronhallaert/advanced-git-search.nvim",
+    config = function()
+      -- optional: setup telescope before loading the extension
+      require("telescope").setup {
+        -- move this to the place where you call the telescope setup function
+        extensions = {
+          advanced_git_search = {
+            -- fugitive or diffview
+            diff_plugin = "diffview",
+            -- customize git in previewer
+            -- e.g. flags such as { "--no-pager" }, or { "-c", "delta.side-by-side=false" }
+            git_flags = {},
+            -- customize git diff in previewer
+            -- e.g. flags such as { "--raw" }
+            git_diff_flags = {},
+            -- Show builtin git pickers when executing "show_custom_functions" or :AdvancedGitSearch
+            show_builtin_git_pickers = false,
+            entry_default_author_or_date = "author", -- one of "author" or "date"
+
+            -- Telescope layout setup
+            telescope_theme = {
+              function_name_1 = {
+                -- Theme options
+              },
+              function_name_2 = "dropdown",
+              -- e.g. realistic example
+              show_custom_functions = {
+                layout_config = { width = 0.4, height = 0.4 },
+              },
+            },
+          },
+        },
+      }
+      require("telescope").load_extension "advanced_git_search"
+    end,
+
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      -- to show diff splits and open commits in browser
+      "tpope/vim-fugitive",
+    },
   },
 
   -- To make a plugin not be loaded
