@@ -1,3 +1,6 @@
 stop thread switching in gdb | set scheduler-locking step
 stop when an exception is throwed in gdb | catch throw
 the cheat sheet value is yanked i.e., copied into register 0, to paste it, type "0p | yank cheat sheet
+goto the next tab in neovim, e.g., when using diffview | gt
+configure the log for asan, ASAN_OPTIONS="halt_on_error=false, log_path=/opt/tiger/asan.log" cmd |asan log
+fugitive git merge fea; dv/dd on one unstaged file displays three panels for the target branch (2), working copy (1) and merge branch (3, fea); :diffget, :diffput | dv
