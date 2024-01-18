@@ -59,7 +59,11 @@ M.general = {
       end,
       "LSP formatting",
     },
+    ["kj"] = {"<Esc>"},
   },
+  i = {
+    ["kj"] = {"<Esc>"},
+  }
 }
 
 M.telescope = {
