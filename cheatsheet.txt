@@ -5,3 +5,12 @@ generate compile_commands.json for makefile project|compiledb -n make
 goto the next tab in neovim, e.g., when using diffview | gt
 configure the log for asan, ASAN_OPTIONS="halt_on_error=false, log_path=/opt/tiger/asan.log" cmd |asan log
 fugitive git merge fea; dv/dd on one unstaged file displays three panels for the target branch (2), working copy (1) and merge branch (3, fea); :diffget, :diffput | dv
+gdb setup replace the source dir folder | set substitute-path OLD_PATH NEW_PATH
+git show commits in B but not in A |git diff A..B -- PATH
+git show commits in either A or B but not both |git diff A...B -- PATH
+git show changes to a range of code in a file |git log -L START,END:PATH
+git show commits for a file | git log -- PATH
+git show personal contribution |git log --author="fredwang@bytedance.com" --date=iso|perl -nalE 'if(/^Date:\s+[\d-]{10}\s(\d{2})/) {say $1+0}' |sort|uniq -c |perl -MList::Util=max -nalE '$h{$F[1]}=$F[0];}{$m=max values %h; foreach (0..23) {$h{$_}=0 if not exists $h{$_}} foreach (sort {$a <=> $b} keys %h) {say sprintf "%02d-%4d%s", $_, $h{$_}, "*"x ($h{$_}/$m*50);}'
+envrc for CE export CC=/usr/bin/clang-12;export CXX=/usr/bin/clang++-12 | direnv
+envrc for cnch export CC="${BLADE_PATH}/gccs/x86_64-x86_64-clang-1101/bin/clang" | direnv
+ctrl+w ><+- for split/panel resize | resize
