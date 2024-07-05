@@ -14,3 +14,4 @@ git show personal contribution |git log --author="fredwang@bytedance.com" --date
 envrc for CE export CC=/usr/bin/clang-12;export CXX=/usr/bin/clang++-12 | direnv
 envrc for cnch export CC="${BLADE_PATH}/gccs/x86_64-x86_64-clang-1101/bin/clang" | direnv
 ctrl+w ><+- for split/panel resize | resize
+rename a variable across all files in the project | leader ra
