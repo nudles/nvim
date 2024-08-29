@@ -11,6 +11,8 @@ git show commits in either A or B but not both |git diff A...B -- PATH
 git show changes to a range of code in a file |git log -L START,END:PATH
 git show commits for a file | git log -- PATH
 git show personal contribution |git log --author="fredwang@bytedance.com" --date=iso|perl -nalE 'if(/^Date:\s+[\d-]{10}\s(\d{2})/) {say $1+0}' |sort|uniq -c |perl -MList::Util=max -nalE '$h{$F[1]}=$F[0];}{$m=max values %h; foreach (0..23) {$h{$_}=0 if not exists $h{$_}} foreach (sort {$a <=> $b} keys %h) {say sprintf "%02d-%4d%s", $_, $h{$_}, "*"x ($h{$_}/$m*50);}'
+git cherry pick no commit| git cherry-pick --no-commit -m 1 0205cb8d0d2
+git commit no message| git commit --no-edit --allow-empty
 envrc for CE export CC=/usr/bin/clang-12;export CXX=/usr/bin/clang++-12 | direnv
 envrc for cnch export CC="${BLADE_PATH}/gccs/x86_64-x86_64-clang-1101/bin/clang" | direnv
 ctrl+w ><+- for split/panel resize | resize
