@@ -42,3 +42,4 @@ g.snipmate_snippets_path = "~/.config/nvim/snippets"
 
 vim.opt.relativenumber = true                   -- set relative numbered lines
 
+g.editorconfig = false
