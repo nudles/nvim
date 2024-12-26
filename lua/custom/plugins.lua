@@ -4,7 +4,6 @@ local overrides = require "custom.configs.overrides"
 local plugins = {
 
   -- Override plugin definition options
-
   {
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -30,6 +29,7 @@ local plugins = {
 
   {
     "nvim-treesitter/nvim-treesitter",
+    commit="63260da18bf273c76b8e2ea0db84eb901cab49ce",
     opts = overrides.treesitter,
   },
 
@@ -112,6 +112,10 @@ local plugins = {
         },
       }
     end,
+  },
+
+  {
+    "easymotion/vim-easymotion", lazy = false
   },
 
   {

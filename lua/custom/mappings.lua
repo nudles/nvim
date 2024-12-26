@@ -23,7 +23,7 @@ M.general = {
   n = {
     [";"] = { ":", "enter command mode", opts = { nowait = true } },
     -- hop
-    ["<leader><leader>w"] = { ":HopWord<CR>" },
+    -- ["<leader><leader>w"] = { ":HopWord<CR>" },
 
     ["<C-n>"] = { "<C-d>", "Ctrl-n for page down" },
 
