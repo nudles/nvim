@@ -25,6 +25,7 @@ g.mapleader = ","
 g.loaded_python3_provider=1
 g.loaded_node_provider=1
 
+
 g.clipboard = {
   name = 'myClipboard',
   copy = {
@@ -37,7 +38,7 @@ g.clipboard = {
   },
 }
 
+g.snipmate_snippets_path = "~/.config/nvim/snippets"
+
 vim.opt.relativenumber = true                   -- set relative numbered lines
-
-
 

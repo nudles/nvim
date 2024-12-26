@@ -65,7 +65,7 @@ local plugins = {
       start_in_insert = true,
       insert_mappings = true,
       persist_size = true,
-      direction = "float",
+      direction = "horizontal",
       close_on_exit = true,
       shell = vim.o.shell,
       float_opts = {
@@ -160,6 +160,13 @@ local plugins = {
       -- to show diff splits and open commits in browser
       "tpope/vim-fugitive",
     },
+  },
+
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = function() vim.fn["mkdp#util#install"]() end,
   },
 
   -- To make a plugin not be loaded

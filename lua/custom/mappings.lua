@@ -43,6 +43,9 @@ M.general = {
 
     -- open DiffView for the commit under the cursor in fugitive
     ["<leader>cd"] = { "<cmd>lua OpenCommitDiff()<CR>", "open commit diff" },
+
+
+    ["<leader>fd"] = { ":set foldmethod=expr<CR>:set foldexpr=nvim_treesitter#foldexpr()<CR>", "set folding method"},
   },
 
   v = {

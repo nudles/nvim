@@ -19,3 +19,26 @@ end
 dofile(vim.g.base46_cache .. "defaults")
 vim.opt.rtp:prepend(lazypath)
 require "plugins"
+
+
+-- Enable the view option for all buffers
+vim.api.nvim_create_autocmd({"BufWinLeave"}, {
+    pattern = {"*.*"},
+    command = "mkview"
+})
+
+vim.api.nvim_create_autocmd({"BufWinEnter"}, {
+    pattern = {"*.*"},
+    command = "silent! loadview"
+})
+
+-- for text folding 
+require'nvim-treesitter.configs'.setup {
+  fold = {
+    enable = true
+  }
+}
+
+-- not workding for all files; try <leader>fd to do it manually
+vim.wo.foldmethod = 'expr'
+vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
