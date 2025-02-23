@@ -69,17 +69,17 @@ return {
   },
 
   {
-  "nvim-treesitter/nvim-treesitter",
+    "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function () 
       local configs = require("nvim-treesitter.configs")
 
       configs.setup({
-          ensure_installed = { "c", "lua", "vim", "vimdoc", "python", "javascript", "html" },
-          sync_install = false,
-          highlight = { enable = true },
-          indent = { enable = true },  
-        })
+        ensure_installed = { "c", "lua", "vim", "vimdoc", "python", "javascript", "html" },
+        sync_install = false,
+        highlight = { enable = true },
+        indent = { enable = true },  
+      })
     end
   },
 
@@ -87,14 +87,38 @@ return {
   -- So for api plugins like devicons, we can always set lazy=true
   { "nvim-tree/nvim-web-devicons", lazy = true },
 
-{
-	"nvim-tree/nvim-tree.lua",
-	lazy = false,
-	dependencies = {
-		"nvim-tree/nvim-web-devicons",
-	},
-	config = function()
-		require("nvim-tree").setup {}
-	end,
-},
+  {
+    "nvim-tree/nvim-tree.lua",
+    lazy = false,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("nvim-tree").setup {}
+    end,
+  },
+  {
+    "dhananjaylatkar/cscope_maps.nvim",
+    dependencies = {
+    },
+    opts = {
+      cscope = {
+        exec = 'gtags-cscope'
+      }
+    },
+  },
+  {
+    "ludovicchabant/vim-gutentags",
+    config = function()
+      vim.g.gutentags_modules = {"cscope_maps"} -- This is required. Other config is optional
+      vim.g.gutentags_cscope_build_inverted_index_maps = 1
+      vim.g.gutentags_cache_dir = vim.fn.expand("~/.cache/.gutentags")
+      vim.g.gutentags_file_list_command = "fd -e cpp -e h"
+      vim.g.gutentags_ctags_tagfile = '.tags'
+      vim.g.gutentags_project_root = {'.root', '.svn', '.git', '.hg', '.project'}
+      vim.g.gutentags_ctags_tagfile = '.tags'
+      -- vim.g.gutentags_trace = 1
+    end,
+  }
+
 }
