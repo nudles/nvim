@@ -2,6 +2,7 @@ local opt = vim.opt
 local g = vim.g
 
 -------------------------------------- options ------------------------------------------
+opt.tags = './tags;.tags'
 opt.laststatus = 3 -- global statusline
 opt.showmode = false
 
