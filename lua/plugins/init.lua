@@ -51,6 +51,11 @@ return {
           },
         },
 
+        pickers = {
+          find_files = {
+            find_command = { "fd", "--type", "f",  "--exclude", "build*/*", "--exclude", "contrib", "--exclude", "docs" }
+          }
+        },
         extensions = {
           fzf = {
             fuzzy = true,                    -- false will only do exact matching

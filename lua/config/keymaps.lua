@@ -1,11 +1,11 @@
 vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Toggle File Explorer" })
 
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
+vim.keymap.set('n', '<leader>ff', function() return builtin.find_files({find_command= { "fd", "--type", "f",  "--exclude", "build*/*", "--exclude", "contrib", "--exclude", "docs" }}) end, { desc = 'Telescope find files' })
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
 vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
-vim.keymap.set('n', '<leader>fw', function() return builtin.grep_string({ additional_args = { "--glob", "!build/*", "--glob", "!contrib/*", "--glob", "!docs/*" } }) end, { desc = 'Telescope search word under cursor' })
+vim.keymap.set('n', '<leader>fw', function() return builtin.grep_string({ additional_args = { "--glob", "!build*/*", "--glob", "!contrib/*", "--glob", "!docs/*" } }) end, { desc = 'Telescope search word under cursor' })
 vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = 'Telescope resume previous search' })
 vim.keymap.set('n', '<leader>fc', builtin.git_commits, { desc = 'Telescope git commits' })
 vim.keymap.set('n', '<leader>fbc', builtin.git_bcommits, { desc = 'Telescope git buffer commits' })
