@@ -5,8 +5,11 @@ vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find f
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
 vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
-vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = 'Telescope search word under cursor' })
+vim.keymap.set('n', '<leader>fw', function() return builtin.grep_string({ additional_args = { "--glob", "!build/*", "--glob", "!contrib/*", "--glob", "!docs/*" } }) end, { desc = 'Telescope search word under cursor' })
 vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = 'Telescope resume previous search' })
+vim.keymap.set('n', '<leader>fc', builtin.git_commits, { desc = 'Telescope git commits' })
+vim.keymap.set('n', '<leader>fbc', builtin.git_bcommits, { desc = 'Telescope git buffer commits' })
+vim.keymap.set('n', '<leader>fs', builtin.git_status, { desc = 'Telescope git status' })
 
 vim.keymap.set('n', '<S-l>', "<cmd>bnext<CR>", { desc = 'right buf' })
 vim.keymap.set('n', '<S-h>', "<cmd>bprevious<CR>", { desc = 'left buf' })

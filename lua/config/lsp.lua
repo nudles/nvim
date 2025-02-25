@@ -1,6 +1,6 @@
 require("mason").setup()
 require("mason-lspconfig").setup({
-  ensure_installed = { "clangd" },
+  ensure_installed = { "clangd", "lua-language-server", "pyright" },
 })
 
 local lspconfig = require("lspconfig")

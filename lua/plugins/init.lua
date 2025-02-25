@@ -41,12 +41,12 @@ return {
           },
           mappings = {
             i = {  -- Insert mode (inside Telescope picker)
-              ["<C-k>"] = actions.move_selection_next,
-              ["<C-j>"] = actions.move_selection_previous,
+              ["<C-j>"] = actions.move_selection_next,
+              ["<C-k>"] = actions.move_selection_previous,
             },
             n = {  -- Normal mode (inside Telescope picker)
-              ["<C-k>"] = actions.move_selection_next,
-              ["<C-j>"] = actions.move_selection_previous,
+              ["<C-j>"] = actions.move_selection_next,
+              ["<C-k>"] = actions.move_selection_previous,
             },
           },
         },
@@ -129,6 +129,7 @@ return {
 
   -- LSP Config (Neovim's built-in LSP client)
   { "neovim/nvim-lspconfig" },
+
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
@@ -145,6 +146,88 @@ return {
           { name = "nvim_lsp" },
         },
       })
+    end,
+  },
+  {
+    "nvim-lua/lsp-status.nvim",
+    dependencies = {"neovim/nvim-lspconfig"},
+    config = function()
+      local lsp_status = require("lsp-status")
+
+      lsp_status.config({
+        status_symbol = " ",  -- Icon for LSP status
+        indicator_errors = "",
+        indicator_warnings = "",
+        indicator_info = "",
+        indicator_hint = "",
+        indicator_ok = "",
+        spinner_frames = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
+      })
+
+      lsp_status.register_progress()
+
+      local lspconfig = require('lspconfig')
+
+      -- Some arbitrary servers
+      lspconfig.clangd.setup({
+        handlers = lsp_status.extensions.clangd.setup(),
+        init_options = {
+          clangdFileStatus = true
+        },
+        on_attach = lsp_status.on_attach,
+        capabilities = lsp_status.capabilities
+      })
+    end,
+  },
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons', "nvim-lua/lsp-status.nvim" },
+    config = function()
+      require("lualine").setup{
+        -- Add LSP progress info to lualine
+        sections = {
+          lualine_c = {
+            { "diagnostics" }, -- Shows error/warning/info counts
+            { "filename" },    -- Displays the file name
+            { "require('lsp-status').status()" }, -- Shows LSP indexing progress
+          },
+        },
+      }
+    end,
+  },
+  { "tpope/vim-fugitive" },
+  {'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons',
+    config = function() 
+      require("bufferline").setup{}
+    end,
+  },
+  {
+    "easymotion/vim-easymotion",
+    config = function()
+      vim.g.EasyMotion_do_mapping = 0  -- Disable default mappings
+      vim.g.EasyMotion_smartcase = 1   -- Enable smart case search
+
+      -- Custom mappings
+      vim.api.nvim_set_keymap("n", "<leader><leader>w", "<Plug>(easymotion-bd-w)", {})
+      -- vim.api.nvim_set_keymap("n", "<leader><leader>f", "<Plug>(easymotion-bd-f)", {})
+      -- vim.api.nvim_set_keymap("n", "<leader><leader>l", "<Plug>(easymotion-lineforward)", {})
+      -- vim.api.nvim_set_keymap("n", "<leader><leader>j", "<Plug>(easymotion-j)", {})
+      -- vim.api.nvim_set_keymap("n", "<leader><leader>k", "<Plug>(easymotion-k)", {})
+    end,
+  },
+  {'akinsho/toggleterm.nvim', version = "*", 
+    config = function()
+      require("toggleterm").setup{
+        size = function(term)
+          if term.direction == "horizontal" then
+            return 15
+          elseif term.direction == "vertical" then
+            return vim.o.columns * 0.4
+          end
+        end,
+        open_mapping = [[<c-\>]],
+        direction = 'horizontal' 
+      }
     end,
   }
 }
