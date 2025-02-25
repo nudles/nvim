@@ -22,6 +22,9 @@ vim.keymap.set('n', '<C-j>', "<C-w>j", { desc = 'to bottom window' })
 vim.keymap.set('n', '<C-k>', "<C-w>k", { desc = 'to top window' })
 
 
+vim.keymap.set('n', 'j', 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', { expr = true, desc = 'move down' })
+vim.keymap.set('n', 'k', 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', { expr = true, desc = 'move up' })
+
 vim.keymap.set('t', '<C-x>', vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true), { desc =  "Escape terminal mode" })
 
 
