@@ -99,7 +99,13 @@ return {
       "nvim-tree/nvim-web-devicons",
     },
     config = function()
-      require("nvim-tree").setup {}
+      require("nvim-tree").setup {
+        update_focused_file = {
+          enable = true,   -- Automatically update the tree when switching buffers
+          update_cwd = false, -- Update the tree root directory to match the current buffer
+          ignore_list = {}, -- List of buffers to ignore (optional)
+        }
+      }
     end,
   },
   {
@@ -172,6 +178,32 @@ return {
       lsp_status.register_progress()
 
       local lspconfig = require('lspconfig')
+      local on_attach = function(client, bufnr)
+        local opts = { noremap = true, silent = true, buffer = bufnr }
+
+        -- Go to definition
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+        -- Go to references
+        vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+        -- Go to implementation
+        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+        -- Hover documentation
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+        -- Signature help
+        vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, opts)
+        -- Rename symbol
+        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+        -- Code actions
+        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+        -- Show diagnostics
+        vim.keymap.set("n", "<leader>da", vim.diagnostic.open_float, opts)
+        -- Next/previous diagnostics
+        vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+        vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+        lsp_status.on_attach(client)
+      end
+
 
       -- Some arbitrary servers
       lspconfig.clangd.setup({
@@ -179,7 +211,7 @@ return {
         init_options = {
           clangdFileStatus = true
         },
-        on_attach = lsp_status.on_attach,
+        on_attach = on_attach,
         capabilities = lsp_status.capabilities
       })
     end,
