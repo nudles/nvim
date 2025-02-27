@@ -212,7 +212,19 @@ return {
           clangdFileStatus = true
         },
         on_attach = on_attach,
-        capabilities = lsp_status.capabilities
+        capabilities = lsp_status.capabilities,
+        root_dir = function(fname)
+          local root = require("lspconfig.util").root_pattern("compile_commands.json")(fname)
+          if root then
+            local allowed_dirs = { "/src/", "/base/" }
+            for _, dir in ipairs(allowed_dirs) do
+              if fname:match(root .. dir) then
+                return root
+              end
+            end
+          end
+          return nil  -- Prevent LSP from starting outside src/ and base/
+        end,
       })
     end,
   },
