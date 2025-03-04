@@ -232,6 +232,16 @@ return {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons', "nvim-lua/lsp-status.nvim" },
     config = function()
+      local function custom_os_icon()
+        local os_name = vim.loop.os_uname().sysname
+        local icons = {
+          Darwin = '', -- Apple icon
+          Linux = '',
+          Windows = ''
+        }
+        return icons[os_name] or os_name
+      end
+
       require("lualine").setup{
         -- Add LSP progress info to lualine
         sections = {
@@ -240,6 +250,7 @@ return {
             { "filename" },    -- Displays the file name
             { "require('lsp-status').status()" }, -- Shows LSP indexing progress
           },
+          lualine_z = {'location', custom_os_icon},
         },
       }
     end,
