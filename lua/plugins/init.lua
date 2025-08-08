@@ -120,162 +120,162 @@ return {
     end,
   },
   -- {
-  --   "ludovicchabant/vim-gutentags",
-  --   config = function()
-  --     vim.g.gutentags_modules = {"cscope_maps"} -- This is required. Other config is optional
-  --     vim.g.gutentags_cscope_build_inverted_index_maps = 1
-  --     vim.g.gutentags_cache_dir = vim.fn.expand("~/.cache/gutentags")
-  --     vim.g.gutentags_file_list_command = "fd -e cpp -e h"
-  --     vim.g.gutentags_ctags_tagfile = '.tags'
-  --     vim.g.gutentags_project_root = {'.root', '.svn', '.git', '.hg', '.project'}
-  --     -- vim.g.gutentags_trace = 1
-  --   end,
-  -- }
+    --   "ludovicchabant/vim-gutentags",
+    --   config = function()
+      --     vim.g.gutentags_modules = {"cscope_maps"} -- This is required. Other config is optional
+      --     vim.g.gutentags_cscope_build_inverted_index_maps = 1
+      --     vim.g.gutentags_cache_dir = vim.fn.expand("~/.cache/gutentags")
+      --     vim.g.gutentags_file_list_command = "fd -e cpp -e h"
+      --     vim.g.gutentags_ctags_tagfile = '.tags'
+      --     vim.g.gutentags_project_root = {'.root', '.svn', '.git', '.hg', '.project'}
+      --     -- vim.g.gutentags_trace = 1
+      --   end,
+      -- }
 
-  -- Install Mason (LSP manager)
-  { "williamboman/mason.nvim", config = true },
+      -- Install Mason (LSP manager)
+      { "williamboman/mason.nvim", config = true },
 
-  -- Mason-LSPConfig (Bridge between Mason and LSPConfig)
-  { "williamboman/mason-lspconfig.nvim", config = true },
+      -- Mason-LSPConfig (Bridge between Mason and LSPConfig)
+      { "williamboman/mason-lspconfig.nvim", config = true },
 
-  -- LSP Config (Neovim's built-in LSP client)
-  { "neovim/nvim-lspconfig" },
+      -- LSP Config (Neovim's built-in LSP client)
+      { "neovim/nvim-lspconfig" },
 
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-    },
-    config = function()
-      local cmp = require("cmp")
-      cmp.setup({
-        mapping = cmp.mapping.preset.insert({
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
-        }),
-        sources = {
-          { name = "nvim_lsp" },
+      {
+        "hrsh7th/nvim-cmp",
+        dependencies = {
+          "hrsh7th/cmp-nvim-lsp",
         },
-      })
-    end,
-  },
-  {
-    "nvim-lua/lsp-status.nvim",
-    dependencies = {"neovim/nvim-lspconfig"},
-    config = function()
-      local lsp_status = require("lsp-status")
-
-      lsp_status.config({
-        status_symbol = " ",  -- Icon for LSP status
-        indicator_errors = "",
-        indicator_warnings = "",
-        indicator_info = "",
-        indicator_hint = "",
-        indicator_ok = "",
-        spinner_frames = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
-      })
-
-      lsp_status.register_progress()
-
-      local lspconfig = require('lspconfig')
-      local on_attach = function(client, bufnr)
-        local opts = { noremap = true, silent = true, buffer = bufnr }
-
-        -- Go to definition
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-        -- Go to references
-        vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-        -- Go to implementation
-        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-        -- Hover documentation
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-        -- Signature help
-        vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, opts)
-        -- Rename symbol
-        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-        -- Code actions
-        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-        -- Show diagnostics
-        vim.keymap.set("n", "<leader>da", vim.diagnostic.open_float, opts)
-        -- Next/previous diagnostics
-        vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-        vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-        lsp_status.on_attach(client)
-      end
-
-
-      -- Some arbitrary servers
-      lspconfig.clangd.setup({
-        handlers = lsp_status.extensions.clangd.setup(),
-        init_options = {
-          clangdFileStatus = true
-        },
-        on_attach = on_attach,
-        capabilities = lsp_status.capabilities,
-        root_dir = function(fname)
-          local root = require("lspconfig.util").root_pattern("compile_commands.json")(fname)
-          if root then
-            local allowed_dirs = { "/src/", "/base/" }
-            for _, dir in ipairs(allowed_dirs) do
-              if fname:match(root .. dir) then
-                return root
-              end
-            end
-          end
-          return nil  -- Prevent LSP from starting outside src/ and base/
+        config = function()
+          local cmp = require("cmp")
+          cmp.setup({
+            mapping = cmp.mapping.preset.insert({
+              ["<C-Space>"] = cmp.mapping.complete(),
+              ["<CR>"] = cmp.mapping.confirm({ select = true }),
+            }),
+            sources = {
+              { name = "nvim_lsp" },
+            },
+          })
         end,
-      })
-    end,
-  },
-  {
-    'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons', "nvim-lua/lsp-status.nvim" },
-    config = function()
-      local function custom_os_icon()
-        local os_name = vim.loop.os_uname().sysname
-        local icons = {
-          Darwin = '', -- Apple icon
-          Linux = '',
-          Windows = ''
-        }
-        return icons[os_name] or os_name
-      end
+      },
+      {
+        "nvim-lua/lsp-status.nvim",
+        dependencies = {"neovim/nvim-lspconfig"},
+        config = function()
+          local lsp_status = require("lsp-status")
 
-      require("lualine").setup{
-        -- Add LSP progress info to lualine
-        sections = {
-          lualine_c = {
-            { "diagnostics" }, -- Shows error/warning/info counts
-            { "filename" },    -- Displays the file name
-            { "require('lsp-status').status()" }, -- Shows LSP indexing progress
-          },
-          lualine_z = {'location', custom_os_icon},
-        },
-      }
-    end,
-  },
-  { "tpope/vim-fugitive" },
-  {'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons',
-    config = function() 
-      require("bufferline").setup{}
-    end,
-  },
-  {
-    "easymotion/vim-easymotion",
-    config = function()
-      vim.g.EasyMotion_do_mapping = 0  -- Disable default mappings
-      vim.g.EasyMotion_smartcase = 1   -- Enable smart case search
+          lsp_status.config({
+            status_symbol = " ",  -- Icon for LSP status
+            indicator_errors = "",
+            indicator_warnings = "",
+            indicator_info = "",
+            indicator_hint = "",
+            indicator_ok = "",
+            spinner_frames = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
+          })
 
-      -- Custom mappings
-      vim.api.nvim_set_keymap("n", "<leader><leader>w", "<Plug>(easymotion-bd-w)", {})
-      -- vim.api.nvim_set_keymap("n", "<leader><leader>f", "<Plug>(easymotion-bd-f)", {})
-      -- vim.api.nvim_set_keymap("n", "<leader><leader>l", "<Plug>(easymotion-lineforward)", {})
-      -- vim.api.nvim_set_keymap("n", "<leader><leader>j", "<Plug>(easymotion-j)", {})
-      -- vim.api.nvim_set_keymap("n", "<leader><leader>k", "<Plug>(easymotion-k)", {})
-    end,
-  },
-  {'akinsho/toggleterm.nvim', version = "*", 
+          lsp_status.register_progress()
+
+          local lspconfig = require('lspconfig')
+          local on_attach = function(client, bufnr)
+            local opts = { noremap = true, silent = true, buffer = bufnr }
+
+            -- Go to definition
+            vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+            vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+            -- Go to references
+            vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+            -- Go to implementation
+            vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+            -- Hover documentation
+            vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+            -- Signature help
+            vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, opts)
+            -- Rename symbol
+            vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+            -- Code actions
+            vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+            -- Show diagnostics
+            vim.keymap.set("n", "<leader>da", vim.diagnostic.open_float, opts)
+            -- Next/previous diagnostics
+            vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+            vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+            lsp_status.on_attach(client)
+          end
+
+
+          -- Some arbitrary servers
+          lspconfig.clangd.setup({
+            handlers = lsp_status.extensions.clangd.setup(),
+            init_options = {
+              clangdFileStatus = true
+            },
+            on_attach = on_attach,
+            capabilities = lsp_status.capabilities,
+            root_dir = function(fname)
+              local root = require("lspconfig.util").root_pattern("compile_commands.json")(fname)
+              if root then
+                local allowed_dirs = { "/src/", "/base/" }
+                for _, dir in ipairs(allowed_dirs) do
+                  if fname:match(root .. dir) then
+                    return root
+                  end
+                end
+              end
+              return nil  -- Prevent LSP from starting outside src/ and base/
+            end,
+          })
+        end,
+      },
+      {
+        'nvim-lualine/lualine.nvim',
+        dependencies = { 'nvim-tree/nvim-web-devicons', "nvim-lua/lsp-status.nvim" },
+        config = function()
+          local function custom_os_icon()
+            local os_name = vim.loop.os_uname().sysname
+            local icons = {
+              Darwin = '', -- Apple icon
+              Linux = '',
+              Windows = ''
+            }
+            return icons[os_name] or os_name
+          end
+
+          require("lualine").setup{
+            -- Add LSP progress info to lualine
+            sections = {
+              lualine_c = {
+                { "diagnostics" }, -- Shows error/warning/info counts
+                { "filename" },    -- Displays the file name
+                { "require('lsp-status').status()" }, -- Shows LSP indexing progress
+              },
+              lualine_z = {'location', custom_os_icon},
+            },
+          }
+        end,
+      },
+      { "tpope/vim-fugitive" },
+      {'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons',
+      config = function() 
+        require("bufferline").setup{}
+      end,
+    },
+    {
+      "easymotion/vim-easymotion",
+      config = function()
+        vim.g.EasyMotion_do_mapping = 0  -- Disable default mappings
+        vim.g.EasyMotion_smartcase = 1   -- Enable smart case search
+
+        -- Custom mappings
+        vim.api.nvim_set_keymap("n", "<leader><leader>w", "<Plug>(easymotion-bd-w)", {})
+        -- vim.api.nvim_set_keymap("n", "<leader><leader>f", "<Plug>(easymotion-bd-f)", {})
+        -- vim.api.nvim_set_keymap("n", "<leader><leader>l", "<Plug>(easymotion-lineforward)", {})
+        -- vim.api.nvim_set_keymap("n", "<leader><leader>j", "<Plug>(easymotion-j)", {})
+        -- vim.api.nvim_set_keymap("n", "<leader><leader>k", "<Plug>(easymotion-k)", {})
+      end,
+    },
+    {'akinsho/toggleterm.nvim', version = "*", 
     config = function()
       require("toggleterm").setup{
         size = function(term)
@@ -346,13 +346,31 @@ return {
       },
     },
   },
-	{
-	"iamcco/markdown-preview.nvim",
-	cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-	build = "cd app && yarn install",
-	init = function()
-		vim.g.mkdp_filetypes = { "markdown" }
-	end,
-	ft = { "markdown" },
-	}
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    build = "cd app && yarn install",
+    init = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+    end,
+    ft = { "markdown" },
+  },
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+    keys = {
+      {
+        "<leader>?",
+        function()
+          require("which-key").show({ global = false })
+        end,
+        desc = "Buffer Local Keymaps (which-key)",
+      },
+    },
+  }
 }

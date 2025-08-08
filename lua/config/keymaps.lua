@@ -10,6 +10,7 @@ vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = 'Telescope resume pre
 vim.keymap.set('n', '<leader>fc', builtin.git_commits, { desc = 'Telescope git commits' })
 vim.keymap.set('n', '<leader>fbc', builtin.git_bcommits, { desc = 'Telescope git buffer commits' })
 vim.keymap.set('n', '<leader>fs', builtin.git_status, { desc = 'Telescope git status' })
+vim.keymap.set('n', '<leader>fd', builtin.lsp_document_symbols, { desc = 'Telescope document symbols' })
 
 vim.keymap.set('n', '<S-l>', "<cmd>bnext<CR>", { desc = 'right buf' })
 vim.keymap.set('n', '<S-h>', "<cmd>bprevious<CR>", { desc = 'left buf' })
